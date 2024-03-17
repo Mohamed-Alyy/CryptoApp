@@ -4,10 +4,6 @@
 
 import Foundation
 
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let coin = try? JSONDecoder().decode(Coin.self, from: jsonData)
 
 
 // MARK: - CoinElement

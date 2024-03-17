@@ -13,15 +13,30 @@ class CoinImageServices {
     // 1- create this reference to get url from coin.image?
     private let coin: CoinModel
 
+    let cFManager = CoinFIleManager.instance
    
     init(coin: CoinModel) {
         self.coin = coin
-        getCoinsImage()
+        getSavedImage()
+    }
+    
+
+    
+    private func getSavedImage(){
+        
+        if let savedImage = cFManager.get(imageName: coin.id){
+            //print("get saved image")
+            image = savedImage
+        }else{
+            //print("get live image")
+            fetchCoinsImage()
+        }
+        
     }
     
     //2- when we call this function in coinsViewModel we need url
     
-    private func getCoinsImage(){
+    private func fetchCoinsImage(){
         guard
             let imageUrl = coin.image,
             let url = URL(string: imageUrl) else {return}
@@ -29,13 +44,15 @@ class CoinImageServices {
         imageSubscription = NetworkManager.downloadData(url: url)
             .tryMap { data -> UIImage? in
                 let imageData = UIImage(data: data)
-             
                 return imageData
-                
             }
             .sink(receiveCompletion: (NetworkManager.handelSinkCompletion)) { [weak self] returnedImage in
-                self?.image = returnedImage
-                self?.imageSubscription?.cancel()
+                guard 
+                    let self = self,
+                    let image = returnedImage else {return}
+                
+                cFManager.add(imageName: coin.id, image: image)
+                self.imageSubscription?.cancel()
             }
     }
     

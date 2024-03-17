@@ -11,10 +11,9 @@ import SwiftUI
 
 struct CoinImageVeiw: View {
     @StateObject var vm: CoinsImageVeiwModel
-   
+    let manager = CoinFIleManager.instance
     init(coin:CoinModel) {
         _vm = StateObject(wrappedValue: CoinsImageVeiwModel(coin: coin))
-     
     }
     
     var body: some View {

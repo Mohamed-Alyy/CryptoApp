@@ -44,7 +44,7 @@ extension CoinRowView {
                 .frame(minWidth: 30)
            // Circle()
             CoinImageVeiw(coin: coin)
-                .frame(width: 30)
+                .frame(width: 40)
             Text(coin.symbol.uppercased())
                 .padding(6)
         }

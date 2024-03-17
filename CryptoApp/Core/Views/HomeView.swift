@@ -96,7 +96,7 @@ extension HomeView {
         HStack{
             Text("Coin")
             Spacer()
-            if !showPortfolio{
+            if showPortfolio{
                 Text("Holding")
                 
             }
