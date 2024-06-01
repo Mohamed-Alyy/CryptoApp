@@ -111,6 +111,17 @@ extension HomeView {
             }
             Text("Prices")
                 .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+            // press Button to refresh data
+            Button(action: {
+                withAnimation(.linear(duration: 2)) {
+                    vm.reloadData()
+                    // make vibration whene data loaded
+                    HapticManager().notification(type: .success)
+                }
+            }, label: {
+                Image(systemName: "goforward")
+            })
+            .rotationEffect(Angle(degrees: vm.isLoadingData ? 360 : 0))
         }
         .font(.caption)
         .foregroundStyle(Color.theme.secondaryTextColor)

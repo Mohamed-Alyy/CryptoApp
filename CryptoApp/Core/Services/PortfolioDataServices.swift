@@ -20,7 +20,7 @@ class PortfolioDataServices {
     }
 
     //MARK: Core Data Private Methods
-    private func getPortfolioData(){
+     func getPortfolioData(){
         let request = NSFetchRequest<PortfoliEntity>(entityName: entityName)
         
         do{
