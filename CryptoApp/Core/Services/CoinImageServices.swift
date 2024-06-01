@@ -25,10 +25,8 @@ class CoinImageServices {
     private func getSavedImage(){
         
         if let savedImage = cFManager.get(imageName: coin.id){
-            //print("get saved image")
             image = savedImage
         }else{
-            //print("get live image")
             fetchCoinsImage()
         }
         
@@ -52,6 +50,7 @@ class CoinImageServices {
                     let image = returnedImage else {return}
                 
                 cFManager.add(imageName: coin.id, image: image)
+                self.image = image
                 self.imageSubscription?.cancel()
             }
     }

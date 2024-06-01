@@ -30,7 +30,7 @@ struct CoinImageVeiw: View {
             }else{
                 Image(systemName: "questionmark.circle")
                     .font(.title)
-                    .foregroundStyle(ColorTheme().secondaryTextColor)
+                    .foregroundStyle(Color.theme.secondaryTextColor)
             }
         }
       
@@ -38,5 +38,5 @@ struct CoinImageVeiw: View {
 }
 
 #Preview {
-    CoinImageVeiw(coin: CoinSample.instance.coin)
+    CoinImageVeiw(coin: DeveloperPreview.instance.coin)
 }

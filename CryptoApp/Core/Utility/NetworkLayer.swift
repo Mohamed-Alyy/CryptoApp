@@ -8,7 +8,7 @@ import Combine
 /*
  
  **** func downloadData
- 1- حددنا نوع الارجاع في الدالة الأولى عن طريق استدعاء دالة في مكتبة كوماين وهي
+ 1- حددنا نوع الارجاع في الدالة الأولى عن طريق استدعاء دالة في مكتبة كومابين وهي
  eraseToAnyPublisher()
 وهي بترجع اي نوع بابلشر
  AnyPublisher<Data,Error>
@@ -17,9 +17,11 @@ import Combine
  
  **** func handelURLResponse
  ١- هي عبارة عن التأكد من ان البيانات بترجع بشكل سليم او بيرجع خطأ
- ٢- نوع الارجاع في الدالة هيكون
+ 
+ ٢- نوع الارجاع في الدالة هايكون
  throws Data
  لأنها ممكن ترجع داتا أو ايرور
+ 
  ٣- الدالة هاتستقبل ٢ بارامتر
  الاول
  URLSession.DataTaskPublisher.Output
@@ -60,7 +62,7 @@ class NetworkManager {
         }
     }
     
-    
+                  
     static func downloadData(url: URL) -> AnyPublisher<Data,Error> {
        return  URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))
@@ -90,3 +92,5 @@ class NetworkManager {
         }
     }
 }
+
+

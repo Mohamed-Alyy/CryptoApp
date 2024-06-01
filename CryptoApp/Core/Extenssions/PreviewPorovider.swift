@@ -1,19 +1,27 @@
-
-//  Created by Mohamed Ali on 04/11/2023.
 //
-import SwiftUI
+//  PreviewPorovider.swift
+//  CryptoApp
+//
+//  Created by Mohamed Ali on 03/11/2023.
+//
+
 import Foundation
+import SwiftUI
 
-//extension Preview{
-//    static var sample: K {
-//        return K.instance
-//    }
-//}
+extension PreviewProvider {
+    static var dev:DeveloperPreview{
+        return DeveloperPreview.instance
+    }
+    
+}
 
-class CoinSample {
-    static let instance = CoinSample()
-    private init() {} // to prevent to create another instance from this calss
-    let homeVm = HomeViewModel() // to be accessible from any view
+
+class DeveloperPreview{
+    //Create Singleton
+    static let instance = DeveloperPreview()
+    let homeVM = HomeViewModel()
+    private init () {} // to prevent create another instance from this class
+    let stat1 = StatisticModel(title: "Title", value: "value", percentag: 22.45)
     let coin = CoinModel(
        id: "bitcoin",
        symbol: "btc",
@@ -214,5 +222,3 @@ class CoinSample {
        priceChangePercentage24HInCurrency: 3952.64,
        currentHolding: 1.5)
 }
-
-

@@ -52,12 +52,14 @@ class CoinFIleManager {
         guard
             let imageData = image.pngData(),
             let imagePath = getImagePath(imageName: imageName) else {return}
-        
-        do {
-            try  imageData.write(to: imagePath)
-        } catch let error {
-            print(error.localizedDescription)
+        if !fm.fileExists(atPath: imagePath.path()){
+            do {
+                try  imageData.write(to: imagePath)
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
+        
        
     }
     

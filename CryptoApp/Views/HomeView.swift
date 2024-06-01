@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var showPortfolio: Bool = false
     @EnvironmentObject private var vm : HomeViewModel
+    @State private var showPortfolio: Bool = false // animate
+    @State private var showPorfolilSheetView: Bool = false // new sheet
+    
     
     var body: some View {
         
@@ -17,10 +19,18 @@ struct HomeView: View {
             
             Color.theme.backgroudColor
                 .ignoresSafeArea()
+                .sheet(isPresented: $showPorfolilSheetView, content: {
+                    PortfolioSheetView()
+                        .environmentObject(vm)
+                        
+                })
             
             VStack{
                 homeHeader
+                HomeStatsView(showPortfolio: $showPortfolio)
+                SearchBarView(searchBarText: $vm.searchText)
                 columnTitle
+                
                 if showPortfolio{
                     portfolioCoins
                 }else{
@@ -34,7 +44,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(CoinSample.instance.homeVm)
+        .environmentObject(DeveloperPreview.instance.homeVM)
 }
 
 
@@ -44,16 +54,16 @@ extension HomeView {
             CircleButtonView(imageName: showPortfolio ? "plus" : "info" )
                 .background(
                     CircleButtonAnimationView(animate: $showPortfolio)
-                    
                 )
                 .onTapGesture {
                     withAnimation(.spring) {
-                        showPortfolio.toggle()
+                        //showPortfolio.toggle()
+                        showPorfolilSheetView.toggle()
                     }
                 }
             Spacer()
             Text(showPortfolio ?  "Portfolio": "Live Precise")
-                .font(.headline)
+                .font(.headline) 
                 .fontWeight(.heavy)
                 .foregroundStyle(Color.theme.accent)
             Spacer()
@@ -97,8 +107,7 @@ extension HomeView {
             Text("Coin")
             Spacer()
             if showPortfolio{
-                Text("Holding")
-                
+                Text("Holding") 
             }
             Text("Prices")
                 .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)

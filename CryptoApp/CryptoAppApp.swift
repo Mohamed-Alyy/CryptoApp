@@ -11,16 +11,22 @@ import SwiftUI
 struct CryptoAppApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject private var vm = HomeViewModel()
+    
+    // controls app theme colours
+    init(){
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor(Color.theme.accent)]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor(Color.theme.accent)]
+    }
+    
     var body: some Scene {
         WindowGroup {
             NavigationView{
                 HomeView()
-//                    .navigationBarHidden(true)
                     .toolbar(.hidden)
-                //            ContentView()
-                //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                                
             }
             .environmentObject(vm)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
