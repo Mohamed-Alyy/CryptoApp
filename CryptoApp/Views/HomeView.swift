@@ -104,13 +104,44 @@ extension HomeView {
     
     private var columnTitle: some View {
         HStack{
-            Text("Coin")
+            HStack{
+                Image(systemName: "chevron.down")
+                    .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 180 : 0))
+                Text("Coin")
+            }
+            .onTapGesture {
+                withAnimation {
+                    vm.sortOption = vm.sortOption == .rank ? .rankReversed : .rank
+                }
+            }
+            
             Spacer()
             if showPortfolio{
-                Text("Holding") 
+                HStack{
+                    
+                    Image(systemName: "chevron.down")
+                        .rotationEffect(Angle(degrees: vm.sortOption == .hold ? 180 : 0))
+                    Text("Holding")
+                }
+                .onTapGesture {
+                    withAnimation {
+                        vm.sortOption = vm.sortOption == .hold ? .holdReversed : .hold
+                    }
+                }
+
             }
-            Text("Prices")
-                .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+            HStack{
+                Image(systemName: "chevron.down")
+                    .rotationEffect(Angle(degrees: vm.sortOption == .price ? 180 : 0))
+                Text("Prices")
+            }
+            .onTapGesture {
+                withAnimation {
+                    vm.sortOption = vm.sortOption == .price ? .priceReversed : .price
+                }
+            }
+            
+            .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
             // press Button to refresh data
             Button(action: {
                 withAnimation(.linear(duration: 2)) {

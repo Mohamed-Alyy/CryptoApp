@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 class HapticManager {
-    let genertaor = UINotificationFeedbackGenerator()
+    let generator = UINotificationFeedbackGenerator()
     
     func notification(type: UINotificationFeedbackGenerator.FeedbackType){
-        genertaor.notificationOccurred(type)
+        generator.notificationOccurred(type)
     }
 }
