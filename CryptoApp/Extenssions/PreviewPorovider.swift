@@ -20,6 +20,7 @@ class DeveloperPreview{
     //Create Singleton
     static let instance = DeveloperPreview()
     let homeVM = HomeViewModel()
+    
     private init () {} // to prevent create another instance from this class
     let stat1 = StatisticModel(title: "Title", value: "value", percentag: 22.45)
     let coin = CoinModel(
@@ -221,4 +222,6 @@ class DeveloperPreview{
        ]),
        priceChangePercentage24HInCurrency: 3952.64,
        currentHolding: 1.5)
+    
+    let coinDetail = CoinDetailModel(id: "id", symbol: "symbole", name: "name", blockTimeInMinutes: 10, hashingAlgorithm: "hashingAlgorithm", description: Description(en: "description"))
 }

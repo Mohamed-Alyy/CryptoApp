@@ -10,13 +10,14 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var vm : HomeViewModel
     @State private var showPortfolio: Bool = false // animate
-    @State private var showPorfolilSheetView: Bool = false // new sheet
+    @State private var showPorfolilSheetView: Bool = false // Segue new sheet
+    @State private var showDetailView: Bool = false
+    @State private var selectedCoin: CoinModel? = nil
     
     
     var body: some View {
         
         ZStack{
-            
             Color.theme.backgroudColor
                 .ignoresSafeArea()
                 .sheet(isPresented: $showPorfolilSheetView, content: {
@@ -35,11 +36,27 @@ struct HomeView: View {
                     portfolioCoins
                 }else{
                     allCoins
+                        
                 }
                 Spacer(minLength: 0)
             }
+            //TODO: delete this and use NavigationLink to present DetailView
+            .sheet(isPresented: $showDetailView, content: {
+                DetailView(coin: $selectedCoin)
+            })
+            
+            
+            //MARK: ShowDetailView Navigation
+//            .background(
+//                    NavigationLink(value: showDetailView) {
+//                        DetailView(coin: $selectedCoin)
+//                    }
+//            )
         }
+      
+    
     }
+        
 }
 
 #Preview {
@@ -57,18 +74,20 @@ extension HomeView {
                 )
                 .onTapGesture {
                     withAnimation(.spring) {
-                        //showPortfolio.toggle()
                         showPorfolilSheetView.toggle()
                     }
                 }
+            
             Spacer()
+            
             Text(showPortfolio ?  "Portfolio": "Live Precise")
-                .font(.headline) 
+                .font(.headline)
                 .fontWeight(.heavy)
                 .foregroundStyle(Color.theme.accent)
-            Spacer()
-            CircleButtonView(imageName: "chevron.left")
             
+            Spacer()
+            
+            CircleButtonView(imageName: "chevron.left")
                 .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
                 .onTapGesture {
                     withAnimation(.spring) {
@@ -83,6 +102,9 @@ extension HomeView {
         List {
             ForEach(vm.allCoins) { coin in
                 CoinRowView(coin: coin, showHoldingCloumn: false)
+                    .onTapGesture {
+                        detailViewSegue(coin:coin)
+                    }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
@@ -90,11 +112,15 @@ extension HomeView {
         .transition(.move(edge: .leading))
     }
     
+  
     
     private var portfolioCoins: some View {
         List {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingCloumn: true)
+                    .onTapGesture {
+                        detailViewSegue(coin: coin)
+                    }
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
@@ -106,7 +132,8 @@ extension HomeView {
         HStack{
             HStack{
                 Image(systemName: "chevron.down")
-                    .rotationEffect(Angle(degrees: vm.sortOption == .rank ? 180 : 0))
+                    .opacity(( vm.sortOption == .rank || vm.sortOption == .rankReversed) ? 1 : 0)
+                    .rotationEffect(Angle(degrees:( vm.sortOption == .rank) ? 180 : 0))
                 Text("Coin")
             }
             .onTapGesture {
@@ -120,6 +147,7 @@ extension HomeView {
                 HStack{
                     
                     Image(systemName: "chevron.down")
+                        .opacity((vm.sortOption == .hold || vm.sortOption == .holdReversed) ? 1 : 0)
                         .rotationEffect(Angle(degrees: vm.sortOption == .hold ? 180 : 0))
                     Text("Holding")
                 }
@@ -132,6 +160,7 @@ extension HomeView {
             }
             HStack{
                 Image(systemName: "chevron.down")
+                    .opacity((vm.sortOption == .price || vm.sortOption == .priceReversed) ? 1 : 0)
                     .rotationEffect(Angle(degrees: vm.sortOption == .price ? 180 : 0))
                 Text("Prices")
             }
@@ -158,4 +187,13 @@ extension HomeView {
         .foregroundStyle(Color.theme.secondaryTextColor)
         .padding(.horizontal)
     }
+    
+    
+    
+    private func detailViewSegue(coin:CoinModel){
+        selectedCoin = coin
+        showDetailView.toggle()
+          
+      }
 }
+

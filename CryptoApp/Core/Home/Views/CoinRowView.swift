@@ -23,6 +23,10 @@ struct CoinRowView: View {
            // Spacer()
             rightCloumn
         }//Full Hstack
+        .background {
+            // add background to make full staci is clickable
+            Color.theme.backgroudColor
+        }
     }//body
 }//struct
 
